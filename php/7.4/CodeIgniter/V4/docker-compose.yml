@@ -1,0 +1,29 @@
+version: "3"
+
+services:
+
+  webserver:
+    build: .
+    image: "apache2-webserver"
+    container_name: "webserver-${APP_NAME}"
+    volumes:
+      - .:/var/www/html
+    ports:
+      - "${APACHE_PORT}:80"
+      - "${APACHE_PORT_SSL}:443"
+    restart: unless-stopped
+    depends_on:
+      - mariadb
+    links:
+      - mariadb
+
+  mariadb:
+    image: "mariadb:${MDB_VERSION}"
+    container_name: "mariadb-${APP_NAME}"
+    restart: unless-stopped
+    environment:
+      - "MYSQL_ROOT_PASSWORD=${MDB_ROOT_PASSWORD}"
+    volumes:
+      - ./data/mysql:/var/lib/mysql
+    ports:
+      - "${MDB_PORT}:3306"
