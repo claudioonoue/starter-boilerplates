@@ -4,14 +4,11 @@ setup:
 	@chmod -R 0777 ./src/writable
 
 clean:
-	@echo '❗❗❗ --make clean-- Will remove the folder from the project and the database ❗❗❗'
-	@echo '❗❗❗                        Are you sure about that?                         ❗❗❗'
+	@echo -e '❗🛑 --make clean-- 🛑❗\n' 
+	@echo -e '❗🛑 Will remove the folder from the project and the database 🛑❗\n'
+	@echo -e '❗🛑 Are you sure about that? 🛑❗\n'
 	@sudo rm -rf ./data
 	@sudo rm -rf ./src
-
-d-build:
-	@echo '🐋🏗️ Building containers... 🏗️🐋'
-	@docker-compose --env-file ./.docker.env build
 
 d-start:
 	@echo '🐋🚀 Starting containers... 🚀🐋'
@@ -20,4 +17,7 @@ d-start:
 d-stop:
 	@echo '🐋🛑 Stopping containers... 🛑🐋'
 	@docker-compose --env-file ./.docker.env down
-	
+
+d-rebuild:
+	@echo '🐋🏗️ Rebuilding and starting containers... 🏗️🐋'
+	@docker-compose --env-file ./.docker.env up -d --build
